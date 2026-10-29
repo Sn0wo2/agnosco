@@ -29,17 +29,21 @@ func (r *Registry[T]) Register(driver Driver[T]) {
 	if driver.Open == nil {
 		panic("agnosco: driver open must not be nil")
 	}
+
 	if len(driver.Schemes) == 0 {
 		panic("agnosco: driver must have at least one scheme")
 	}
+
 	if r.drivers == nil {
 		r.drivers = make(map[string]Driver[T])
 	}
+
 	for _, scheme := range driver.Schemes {
 		if _, ok := r.drivers[scheme]; ok {
 			panic("agnosco: driver already registered for scheme " + scheme)
 		}
 	}
+
 	for _, scheme := range driver.Schemes {
 		r.drivers[scheme] = driver
 	}
